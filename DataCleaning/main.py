@@ -56,3 +56,4 @@ actors['lname'] = np.array([i[1] for i in actors_names]).T
 actors.to_csv(os.getcwd()+ "/Cleaned_Dataset/actors.csv",index=False)
 
 
+# cleaning
