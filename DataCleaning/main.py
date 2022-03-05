@@ -56,4 +56,13 @@ actors['lname'] = np.array([i[1] for i in actors_names]).T
 actors.to_csv(os.getcwd()+ "/Cleaned_Dataset/actors.csv",index=False)
 
 
-# cleaning
+# Director data cleaning
+director_names = (directors.drop_duplicates(keep= "first")).name.apply(split_name)
+# add column fname to store first name
+directors['fname'] = np.array([i[0] for i in director_names]).T
+# add column lname to store last name
+directors['lname'] = np.array([i[1] for i in director_names]).T
+# export the data to csv
+directors.to_csv(os.getcwd()+ "/Cleaned_Dataset/directors.csv",index=False)
+
+
