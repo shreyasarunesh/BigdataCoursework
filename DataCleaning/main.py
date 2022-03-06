@@ -66,3 +66,33 @@ directors['lname'] = np.array([i[1] for i in director_names]).T
 directors.to_csv(os.getcwd()+ "/Cleaned_Dataset/directors.csv",index=False)
 
 
+# Movie data cleaning
+
+#unidecode data
+movies["title"] = (movies.drop_duplicates(keep= "first"))["title"].apply(unidecode)
+# extract only title
+movies["title"] = movies["title"].apply(lambda each_title: each_title.split(" (")[0])
+# remove ' in the title
+movies["title"] = movies["title"].apply(lambda each_title: each_title.replace("'","") if each_title.count("'") == 2 else each_title)
+# export the data to csv
+movies.to_csv(os.getcwd()+"/Cleaned_Dataset/movies.csv",index=False)
+
+
+# cleaning writers
+# extract only fname and lname from name
+def splitName(name):
+    name = unidecode(name)
+    f_name = l_name = ""
+    if "," in name :
+        f_name, l_name = name.split(",")
+    l_name = re.sub(r"[.']",r' ',l_name.split(' (')[0])
+    f_name = f_name.replace("Jr.","")
+    return [f_name,l_name]
+
+names = (writers.drop_duplicates(keep= "first")).name.apply(splitName)
+# add column fname to store first name
+writers['fname'] = np.array([i[0] for i in names]).T
+# add column fname to store last name
+writers['lname'] = np.array([i[1] for i in names]).T
+# export the data to csv
+writers.to_csv(os.getcwd()+"/Cleaned_Dataset/writers.csv",index=False)
