@@ -96,3 +96,23 @@ writers['fname'] = np.array([i[0] for i in names]).T
 writers['lname'] = np.array([i[1] for i in names]).T
 # export the data to csv
 writers.to_csv(os.getcwd()+"/Cleaned_Dataset/writers.csv",index=False)
+
+
+
+# cleaning movie-to-writers
+# remove special charecters and unwanted data
+def remove_special_charecters(item):
+    item = unidecode(str(item))
+    if "(" in item : item = (item.split("(")[1]).split(')')[0]
+    if '" ' in item : item = item.split('" ')[1]
+    if ' "' in item : item = item.split(' "')[0]
+    if ': ' in item : item = item.split(': ')[0]
+    if ',' in item : item = item.split(',')[0]
+    if "as " in item or item == 'by' or item == 'nan' : item = ""
+    if re.search(r'^<',item) : item = ""
+    item = re.sub(r'[^a-zA-Z ]',r'',item)
+    return item
+
+moviestowriters["additions"] = moviestowriters.addition.apply(remove_special_charecters)
+# export the data to csv
+moviestowriters.to_csv(os.getcwd()+"/Cleaned_Dataset/moviestowriters.csv",index=False)
