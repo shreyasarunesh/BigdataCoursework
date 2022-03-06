@@ -118,6 +118,33 @@ moviestowriters["additions"] = moviestowriters.addition.apply(remove_special_cha
 moviestowriters.to_csv(os.getcwd()+"/Cleaned_Dataset/moviestowriters.csv",index=False)
 
 
+
+
+
 # cleaning movie-to-directors
 # export the data to csv
 moviestodirectors.to_csv(os.getcwd()+"/Cleaned_Dataset/moviestodirectors.csv",index=False)
+
+
+# cleaning runningtimes
+# remove special characters form time column
+runningtimes.time = runningtimes.time.apply(lambda item: re.sub(r'[A-Za-z:]',r'',item))
+# remove special characters form addition1 column and store it in a new column "addition1"
+runningtimes['addition1'] = runningtimes.addition.apply(lambda item: unidecode(re.sub(r'[):(]',r'',item)) if str(item) != 'nan' else
+"")
+# export the data to csv
+runningtimes.to_csv(os.getcwd()+"/Cleaned_Dataset/runningtimes.csv",index=False)
+
+
+# cleaning rating
+# remove special charecters and preceeding numbers
+def formatNumber(num):
+    if len(str(num)) != 0 and str(num) != 'nan':
+        num = int(re.sub(r'[.]', r'', str(num)))
+    else: num =0
+    return  num
+
+
+ratings['distributionNumber'] = ratings.distribution.apply(formatNumber)
+# export the data to csv
+ratings.to_csv(os.getcwd()+"/Cleaned_Dataset/ratings.csv",index=False)
