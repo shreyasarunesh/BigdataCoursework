@@ -116,3 +116,8 @@ def remove_special_charecters(item):
 moviestowriters["additions"] = moviestowriters.addition.apply(remove_special_charecters)
 # export the data to csv
 moviestowriters.to_csv(os.getcwd()+"/Cleaned_Dataset/moviestowriters.csv",index=False)
+
+
+# cleaning movie-to-directors
+# export the data to csv
+moviestodirectors.to_csv(os.getcwd()+"/Cleaned_Dataset/moviestodirectors.csv",index=False)
